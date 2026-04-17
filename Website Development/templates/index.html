@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% set title = "Mazag Café" %}
+
+{% block content %}
+
+<section class="hero">
+  <div class="hero-bleed">
+    <img
+      src="{{ url_for('static', filename='images/icedcoffee.png') }}"
+      alt="Iced coffee"
+      class="hero-bleed-img"
+    />
+
+    <div class="hero-overlay">
+      <div class="hero-text">
+        <h1 class="hero-title">Coffee • Culture • Vibes</h1>
+        <div class="hero-arabic" lang="ar" dir="rtl">مزاج</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="reveal definition-wrap">
+      <div class="definition-card center">
+        <img
+          src="{{ url_for('static', filename='images/definition.png') }}"
+          alt="Mazag definition"
+          class="definition-img"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="services">
+  <div class="container narrow services reveal">
+    <h2 class="services-title">Our Services</h2>
+
+    <p class="services-subtitle">
+      Your vibe. Your mood. Wherever you are.
+    </p>
+
+    <p class="services-body">
+      Mazag brings an intentional coffee experience inspired by Egyptian culture.
+      Through carefully crafted drinks and warm hospitality, our mobile cart
+      transforms any gathering into a moment meant to be felt.
+      Wherever you are, we bring the experience—proudly serving across NJ, NY, and PA.
+    </p>
+  </div>
+</section>
+
+<section class="contact-band" id="contact-us">
+  <div class="container narrow contact-inner reveal">
+    <h2 class="contact-title">Contact Us</h2>
+
+    <p class="contact-subtitle">Let’s create a moment together.</p>
+
+    <form id="contact-form" class="contact-form" method="POST" action="{{ url_for('contact') }}">
+      <div class="contact-grid">
+        <div class="field">
+          <label for="first_name">First Name <span class="req">*</span></label>
+          <input
+            id="first_name"
+            name="first_name"
+            type="text"
+            required
+            autocomplete="given-name"
+          />
+        </div>
+
+        <div class="field">
+          <label for="last_name">Last Name <span class="req">*</span></label>
+          <input
+            id="last_name"
+            name="last_name"
+            type="text"
+            required
+            autocomplete="family-name"
+          />
+        </div>
+
+        <div class="field full">
+          <label for="email">Email <span class="req">*</span></label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            autocomplete="email"
+          />
+        </div>
+
+        <div class="field full">
+          <label for="phone">Phone <span class="req">*</span></label>
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            required
+            autocomplete="tel"
+          />
+        </div>
+
+        <div class="field">
+          <label for="event_type">Event Type <span class="req">*</span></label>
+          <select id="event_type" name="event_type" required>
+            <option value="" selected disabled>Select an option</option>
+            <option>Wedding</option>
+            <option>Engagement</option>
+            <option>Birthday</option>
+            <option>Corporate / Office</option>
+            <option>Community / Church</option>
+            <option>Private Gathering</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="event_date">Event Date <span class="req">*</span></label>
+          <input id="event_date" name="event_date" type="date" required />
+        </div>
+
+        <div class="field full">
+          <label for="comments">Comments (optional)</label>
+          <textarea
+            id="comments"
+            name="comments"
+            rows="4"
+            placeholder="Tell us a little about your event..."
+          ></textarea>
+        </div>
+
+        <div class="field full">
+          <button type="submit" class="btn contact-submit" id="contact-submit-btn">
+            <span class="contact-submit-text">Send</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+{% endblock %}

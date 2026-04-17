@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% set title = "Gallery — Mazag" %}
+
+{% block content %}
+<section class="section">
+  <div class="container">
+    <h1>Gallery</h1>
+    <p class="muted">Two folders: Coffee Pictures + Staff & Events Pictures.</p>
+
+    <div class="gallery-section">
+      <h2>Coffee Pictures</h2>
+      {% if coffee_images %}
+        <div class="gallery-grid">
+          {% for img in coffee_images %}
+            <img class="gallery-img" src="{{ url_for('static', filename=img) }}" alt="Mazag coffee photo" />
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="muted">No photos yet. Add images to <code>static/images/gallery/coffee</code>.</div>
+      {% endif %}
+    </div>
+
+    <div class="gallery-section">
+      <h2>Staff & Events Pictures</h2>
+      {% if events_images %}
+        <div class="gallery-grid">
+          {% for img in events_images %}
+            <img class="gallery-img" src="{{ url_for('static', filename=img) }}" alt="Mazag event photo" />
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="muted">No photos yet. Add images to <code>static/images/gallery/events</code>.</div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

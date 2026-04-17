@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% set title = "Contact — Mazag" %}
+
+{% block content %}
+<section class="section">
+  <div class="container narrow">
+    <h1>Contact Us</h1>
+    <p class="muted">
+      Prefer email? <a href="mailto:mazag.info@gmail.com">mazag.info@gmail.com</a>
+    </p>
+
+    <form class="form" method="post" action="{{ url_for('contact') }}">
+      <div class="form-grid">
+        <label>
+          First Name <span class="req">*</span>
+          <input name="first_name" required />
+        </label>
+
+        <label>
+          Last Name <span class="req">*</span>
+          <input name="last_name" required />
+        </label>
+
+        <label>
+          Email <span class="req">*</span>
+          <input name="email" type="email" required />
+        </label>
+
+        <label>
+          Phone <span class="req">*</span>
+          <input name="phone" type="tel" required />
+        </label>
+
+        <label>
+          Event Type <span class="req">*</span>
+          <input name="event_type" placeholder="Wedding, corporate, birthday, church event..." required />
+        </label>
+
+        <label>
+          Event Date <span class="req">*</span>
+          <input name="event_date" type="date" required />
+        </label>
+
+        <label class="full">
+          Comments (Optional)
+          <textarea name="comments" rows="5" placeholder="Anything we should know? Guest count, location, timing, menu preferences..."></textarea>
+        </label>
+      </div>
+
+      <button class="btn" type="submit">Send</button>
+    </form>
+
+    <div class="muted small-note">
+      Local dev note: submissions save to <code>submissions.db</code> in your project folder.
+      When we publish, we’ll decide whether to email you instantly, store leads, or both.
+    </div>
+  </div>
+</section>
+{% endblock %}

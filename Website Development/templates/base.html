@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{{ title if title else "Mazag Café" }}</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Parisienne&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Flatpickr -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <script defer src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <!-- Site CSS / JS -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+    <script
+      defer
+      src="{{ url_for('static', filename='js/main.js') }}"
+    ></script>
+  </head>
+
+  <body>
+    <!-- Top Navigation -->
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="topbar-brand" href="#top" aria-label="Mazag Home">
+          <img
+            src="{{ url_for('static', filename='images/logo.jpg') }}"
+            alt="Mazag logo"
+            class="topbar-logo"
+          />
+        </a>
+
+        <div class="topbar-actions">
+          <a
+            class="icon-btn"
+            href="https://www.instagram.com/sip.mazag/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Follow on Instagram"
+          >
+            <svg viewBox="0 0 24 24" class="icon" aria-hidden="true">
+              <path
+                d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 4a5 5 0 1 1 0 10a5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6a3 3 0 0 0 0-6zm5.3-.9a1.1 1.1 0 1 1-2.2 0a1.1 1.1 0 0 1 2.2 0z"
+              />
+            </svg>
+          </a>
+
+          <button
+            class="icon-btn nav-toggle"
+            aria-label="Open menu"
+            aria-expanded="false"
+            aria-controls="drawer"
+          >
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Drawer Overlay -->
+    <div class="drawer-overlay" id="drawerOverlay" hidden></div>
+
+    <!-- Slide-out Drawer -->
+    <aside class="drawer" id="drawer" aria-hidden="true">
+      <nav class="drawer-nav" aria-label="Primary navigation">
+        <a class="drawer-link" href="#top">Home</a>
+        <a class="drawer-link" href="#services">Our Services</a>
+        <a class="drawer-link" href="#contact-us">Contact Us</a>
+        <a class="drawer-link" href="#footer">Contact Info</a>
+      </nav>
+    </aside>
+
+    <!-- Main Site Content -->
+    <div class="site-wrap" id="top">
+      <main>
+
+        {% block content %}{% endblock %}
+      </main>
+
+      <!-- Footer -->
+      <footer class="mazag-footer reveal" id="footer">
+        <div class="footer-inner">
+          <div class="footer-main-title">Mazag</div>
+
+          <div class="footer-sub">
+            Serving New Jersey, New York, Pennsylvania
+          </div>
+
+          <div class="footer-section">
+            <div class="footer-heading">Services</div>
+            <div class="footer-text">Mobile Coffee Cart Experience</div>
+          </div>
+
+          <div class="footer-section">
+            <div class="footer-heading">Contact</div>
+            <div class="footer-text">
+              <a href="mailto:mazag.info@gmail.com">mazag.info@gmail.com</a>
+            </div>
+            <div class="footer-text">
+              <a href="tel:+17326681660">(732)-668-1660</a>
+            </div>
+          </div>
+
+          <div class="footer-section">
+            <div class="footer-heading">Follow Us</div>
+
+            <a
+              href="https://www.instagram.com/sip.mazag/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="footer-ig"
+              aria-label="Follow Mazag on Instagram"
+            >
+              <svg viewBox="0 0 24 24" class="footer-icon" aria-hidden="true">
+                <path
+                  d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 4a5 5 0 1 1 0 10a5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6a3 3 0 0 0 0-6zm5.3-.9a1.1 1.1 0 1 1-2.2 0a1.1 1.1 0 0 1 2.2 0z"
+                />
+              </svg>
+            </a>
+          </div>
+
+          <div class="footer-bottom">
+            © {{ 2026 }} Mazag. All rights reserved.
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
