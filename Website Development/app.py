@@ -1,8 +1,23 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import sqlite3
 from pathlib import Path
+import time
+from flask_limiter import Limiter
 
 app = Flask(__name__)
+def get_client_ip():
+    forwarded_for = request.headers.get("X-Forwarded-For", "")
+    if forwarded_for:
+        return forwarded_for.split(",")[0].strip()
+    return request.remote_addr or "unknown"
+
+
+limiter = Limiter(
+    key_func=get_client_ip,
+    app=app,
+    default_limits=[]
+)
+
 app.secret_key = "change-this-to-any-random-string"
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -61,19 +76,37 @@ def gallery():
 from flask_mail import Mail, Message
 import os
 
-app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
-app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 587))
-app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS', 'True') == 'True'
-app.config['MAIL_USE_SSL'] = os.getenv('MAIL_USE_SSL', 'False') == 'True'
-app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
-app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER", "smtp.gmail.com")
+app.config["MAIL_PORT"] = int(os.getenv("MAIL_PORT", 587))
+app.config["MAIL_USE_TLS"] = os.getenv("MAIL_USE_TLS", "True") == "True"
+app.config["MAIL_USE_SSL"] = os.getenv("MAIL_USE_SSL", "False") == "True"
+app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME")
+app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
 
 mail = Mail(app)
 
 from flask import request, jsonify, redirect, url_for, flash
 
+
 @app.route("/contact", methods=["POST"])
+@limiter.limit("3 per hour")
 def contact():
+    # 1) Honeypot: bots often fill hidden fields
+    if request.form.get("website"):
+        print("SPAM BLOCKED: honeypot filled")
+        return jsonify({"ok": True, "message": "Inquiry Sent!"})
+
+    # 2) Timing check: bots submit instantly
+    form_started = request.form.get("form_started")
+    if form_started:
+        try:
+            elapsed_ms = time.time() * 1000 - int(form_started)
+            if elapsed_ms < 3000:
+                print("SPAM BLOCKED: submitted too quickly")
+                return jsonify({"ok": True, "message": "Inquiry Sent!"})
+        except ValueError:
+            print("SPAM BLOCKED: invalid timestamp")
+            return jsonify({"ok": True, "message": "Inquiry Sent!"})
     first = (request.form.get("first_name") or "").strip()
     last = (request.form.get("last_name") or "").strip()
     email = (request.form.get("email") or "").strip()
@@ -81,6 +114,44 @@ def contact():
     event_type = (request.form.get("event_type") or "").strip()
     event_date = (request.form.get("event_date") or "").strip()
     comments = (request.form.get("comments") or "").strip()
+
+    combined_text = f"{first} {last} {email} {phone} {event_type} {comments}".lower()
+
+    spam_terms = [
+        "seo",
+        "backlink",
+        "backlinks",
+        "rank higher",
+        "google ranking",
+        "increase traffic",
+        "website traffic",
+        "marketing services",
+        "digital marketing",
+        "search engine",
+        "guest post",
+        "domain authority",
+        "ahrefs",
+        "semrush",
+        "crypto",
+        "casino",
+        "viagra",
+        "bitcoin",
+        "btc",
+        "transfer",
+        "Automatic",
+        "sent",
+        "payout",
+        "refund",
+        "stuck",
+        "unclaimed",
+        "credits",
+        "bug",
+        "balance"
+    ]
+
+    if any(term in combined_text for term in spam_terms):
+        print("SPAM BLOCKED: keyword match")
+        return jsonify({"ok": True, "message": "Inquiry Sent!"})
 
     try:
         # 1) Email to Mazag
