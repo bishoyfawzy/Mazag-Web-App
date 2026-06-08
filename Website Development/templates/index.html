@@ -56,6 +56,17 @@
     <p class="contact-subtitle">Let’s create a moment together.</p>
 
     <form id="contact-form" class="contact-form" method="POST" action="{{ url_for('contact') }}">
+      <!-- Bot trap: humans will never see/fill this -->
+      <input
+        type="text"
+        name="website"
+        tabindex="-1"
+        autocomplete="off"
+        style="position:absolute; left:-9999px; opacity:0;"
+      />
+
+      <!-- Timing check -->
+      <input type="hidden" name="form_started" id="form_started" />
       <div class="contact-grid">
         <div class="field">
           <label for="first_name">First Name <span class="req">*</span></label>
