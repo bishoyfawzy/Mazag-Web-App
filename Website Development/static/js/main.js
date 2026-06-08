@@ -57,6 +57,10 @@ if (revealEls.length) {
 
 // Run page enhancements after DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
+  const formStarted = document.getElementById("form_started");
+  if (formStarted) {
+    formStarted.value = Date.now();
+  }
   // Themed date picker
   const dateInput = document.querySelector("#event_date");
   if (dateInput && window.flatpickr) {
